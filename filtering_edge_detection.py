@@ -8,6 +8,7 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import ndimage
 
 
 # read the Mandrill image
@@ -16,18 +17,15 @@ mandrill_img = cv.imread('mandrill.jpg')
 # check and raise error if needed
 if mandrill_img is not None:
     cv.imshow('Loaded Image', mandrill_img)
-    cv.waitKey(2000)
+    cv.waitKey(0) # press whatever key to stop it
     cv.destroyAllWindows()
 else:
     print("Error loading the image")
 
-# Convert the image to grayscale
-gray_image = cv.cvtColor(mandrill_img, cv.COLOR_BGR2GRAY)
-
-# Show the original image and the grayscale image
-cv.imshow('Original Image (Color)', mandrill_img)
-cv.imshow('Grayscale Image', gray_image)
-cv.waitKey(5000)  # Display for 2 seconds
+# convert the image to grayscale and show it
+gray_mandrill = cv.cvtColor(mandrill_img, cv.COLOR_BGR2GRAY)
+cv.imshow('Grayscale Image', gray_mandrill)
+cv.waitKey(0) 
 cv.destroyAllWindows()
 
 # Gaussian filtering. Show the result using σ = 1, 2, 4, 8 and explain in detail what can be seen.
@@ -60,11 +58,28 @@ cv.destroyAllWindows()
 # Gradient magnitude computation using Gaussian derivatives. Use σ = 1, 2, 4, 8 pixels, and 
 # explain in detail what can be seen and how the results differ.
 
+# using the scipy library 
+
+sigmas = [1,2,4,8]
+
+for sigma in sigmas:
+    result = ndimage.gaussian_gradient_magnitude(gray_mandrill, sigma=sigma)
+    fig = plt.figure(figsize=(12, 6))
+    ax1 = fig.add_subplot(121)  # left side with original image
+    ax2 = fig.add_subplot(122)  # right side with gradient computation
+
+    ax1.imshow(gray_mandrill, cmap='gray')
+    ax1.set_title("Grayscale Image")
+    ax1.axis('off')
+
+    ax2.imshow(result, cmap='gray')
+    ax2.set_title(f"Gradient Magnitude (σ={sigma})")
+    ax2.axis('off')
+    plt.show()
+    plt.close(fig) # to avoid overlapping each time a plot get closed the new one with the other sigma pops up
 
 
-
-
-
+# manually done with opencv
 
 
 
