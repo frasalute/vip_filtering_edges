@@ -61,7 +61,6 @@ cv.destroyAllWindows()
 # using the scipy library 
 
 sigmas = [1,2,4,8]
-
 for sigma in sigmas:
     result = ndimage.gaussian_gradient_magnitude(gray_mandrill, sigma=sigma)
     fig = plt.figure(figsize=(12, 6))
