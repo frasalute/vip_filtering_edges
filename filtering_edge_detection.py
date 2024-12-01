@@ -56,12 +56,77 @@ cv.destroyAllWindows()
 
 
 # Gradient magnitude computation using Gaussian derivatives. Use σ = 1, 2, 4, 8 pixels, and 
-# explain in detail what can be seen and how the results differ.
+# explain in detail what can be seen and how the results differ. 
 
-# using the scipy library 
+# manually done with opencv
+
+def gaussian_kernels(sigma):
+    """
+    Generate 2D Gaussian derivative kernels for x and y directions.
+    
+    :param sigma: Standard deviation of the Gaussian
+    :return: The derivative kernels for x and y directions
+    """
+    # Calculate kernel size based on ±3σ rule
+    ksize = max(3, int(6 * sigma + 1))  # Ensure minimum kernel size is 3
+    if ksize % 2 == 0:
+        ksize += 1  # Make sure the kernel size is odd
+
+    # 1D Gaussian kernel
+    gaussian = cv.getGaussianKernel(ksize, sigma)  
+    gaussian_first_deriv = -np.diff(gaussian[:, 0])  
+
+    # 2D derivative kernels
+    Gx = np.outer(gaussian_first_deriv, gaussian[:, 0])  # x direction
+    Gy = Gx.T  # y direction 
+
+    return Gx, Gy
+
+def gradient_magnitude_gaussian(image, sigma):
+    """
+    Gradient magnitude using Gaussian derivatives.
+
+    :param image: Original grayscale image
+    :param sigma: Standard deviation of the Gaussian
+    :return: Gradient magnitude image
+    """
+
+    Gx_kernel, Gy_kernel = gaussian_kernels(sigma)
+
+    # Compute gradients in x and y directions and magnitude
+    gradient_x = cv.filter2D(image, cv.CV_64F, Gx_kernel)  
+    gradient_y = cv.filter2D(image, cv.CV_64F, Gy_kernel)  
+    grad_mag = np.sqrt(gradient_x**2 + gradient_y**2)
+
+    return grad_mag
 
 sigmas = [1,2,4,8]
+gradient_magnitudes = []
 
+for sigma in sigmas:
+    grad_mag = gradient_magnitude_gaussian(gray_mandrill, sigma=sigma)
+    gradient_magnitudes.append((sigma, grad_mag))
+
+for sigma, grad_mag in gradient_magnitudes:
+    fig=plt.figure(figsize=(12, 6))
+    ax1 = fig.add_subplot(121)  
+    ax2 = fig.add_subplot(122)
+
+    ax1.imshow(gray_mandrill, cmap='gray')
+    ax1.set_title('Grayscale Image')
+    ax1.axis('off')
+
+
+    ax2.imshow(grad_mag, cmap='gray')
+    ax2.set_title(f'Gradient Magnitude (σ={sigma})')
+    ax2.axis('off')
+    plt.show()
+    plt.close(fig)
+
+
+# using the scipy library out of curiosity
+
+sigmas = [1,2,4,8]
 for sigma in sigmas:
     result = ndimage.gaussian_gradient_magnitude(gray_mandrill, sigma=sigma)
     fig = plt.figure(figsize=(12, 6))
@@ -77,13 +142,6 @@ for sigma in sigmas:
     ax2.axis('off')
     plt.show()
     plt.close(fig) # to avoid overlapping, each time a plot get closed the new one with the other sigma pops up
-
-
-# manually done with opencv
-
-
-
-
 
 
 
