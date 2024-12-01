@@ -76,7 +76,7 @@ for sigma in sigmas:
     ax2.set_title(f"Gradient Magnitude (σ={sigma})")
     ax2.axis('off')
     plt.show()
-    plt.close(fig) # to avoid overlapping each time a plot get closed the new one with the other sigma pops up
+    plt.close(fig) # to avoid overlapping, each time a plot get closed the new one with the other sigma pops up
 
 
 # manually done with opencv
@@ -108,9 +108,7 @@ def apply_gaussian_filter(image, sigma):
     :param sigma: Standard deviation of the Gaussian
     :return: Smoothed image
     """
-    if sigma < 0.5:
-        raise ValueError("Sigma values below 0.5 are not valid for discrete pixel grids.")
-  
+    
     # Calculate kernel size based on ±3σ truncation rule
     ksize = max(3, int(6 * sigma + 1))  # Ensure minimum kernel size of 3
     if ksize % 2 == 0:
@@ -144,11 +142,11 @@ def laplacian_of_gaussian(image, sigma):
     laplacian = apply_laplacian(smoothed)
 
     return laplacian
-"""
+
 # Apply Laplacian of Gaussian with different sigmas
 sigmas = [1, 2, 4, 8] #These values control the extent of smoothing (larger sigma = more smoothing)
 
-results = [laplacian_of_gaussian(gray_image, sigma) for sigma in sigmas]
+results = [laplacian_of_gaussian(gray_mandrill, sigma) for sigma in sigmas]
 
 # Plot the results for each sigma value
 plt.figure(figsize=(12, 8))
@@ -159,7 +157,7 @@ for i, sigma in enumerate(sigmas):
     plt.axis('off')
 plt.tight_layout()
 plt.show()
-"""
+ 
 
 
 
