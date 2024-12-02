@@ -223,27 +223,6 @@ plt.tight_layout()
 plt.show()
 plt.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Experiment and testing
 """
 # Part 3: Experiments to understand how the different sigmas influence the edges detection
