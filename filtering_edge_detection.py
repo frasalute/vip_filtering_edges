@@ -30,21 +30,45 @@ cv.destroyAllWindows()
 
 # Gaussian filtering. Show the result using σ = 1, 2, 4, 8 and explain in detail what can be seen.
 
+sigma_values = [1, 2, 4, 8]
+
+def gaussian_filter(image, sigma):
+
+        # Calculate kernel size based on ±3σ truncation rule
+    ksize = max(3, int(6 * sigma + 1))  # Ensure minimum kernel size of 3
+    if ksize % 2 == 0:
+        ksize += 1  # Make kernel size odd if it's even
+
+    image_filtered = cv.GaussianBlur(image, (ksize,ksize), sigma)
+
+    return image_filtered
+
+def gaussian_filter_diff(original_image, filtered_image):
+    image_diff = original_image - filtered_image
+
+    return image_diff
 
 
+for i, sigma in enumerate(sigma_values):
+    # Apply Gaussian filter
+    filtered_image = gaussian_filter(gray_mandrill, sigma_values)
+    # Compute difference
+    diff_image = gaussian_filter_diff(gray_mandrill, filtered_image)
 
+    # Plot the filtered image
+    plt.subplot(len(sigma_values), 2, i * 2 + 1)
+    plt.imshow(filtered_image, cmap='gray')
+    plt.title(f'Filtered Image (σ={sigma_values})')
+    plt.axis('off')
 
+    # Plot the difference image
+    plt.subplot(len(sigma_values), 2, i * 2 + 2)
+    plt.imshow(diff_image, cmap='gray')
+    plt.title(f'Difference (σ={sigma_values})')
+    plt.axis('off')
 
-
-
-
-
-
-
-
-
-
-
+plt.tight_layout()
+plt.show()
 
 
 
@@ -231,22 +255,21 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
 # Canny (or similar) edge detection. Describe the parameter values and their impact on the result. Select what you think 
 # is a set of good parameter values, apply, show and decribe the result.
 
-
-
-
+# set different ranges for lower bound x and upper bound y for finding the right values
+thresholds = [(50, 100), (100, 200),( 150, 300)]
+# looping through the thresholds of the canny algorhytm and plotting them for inpsection
+for i (x, y) in thresholds:
+    edges = cv.Canny(filtered_image, x, y)
+    plt.subplot(1, len(thresholds), i+1)
+    plt.imshow(edges, cmap= 'gray')
+    plt.title(f'x={x} y={y}')
+    plt.axis('off')
+plt.tight_layout(
+plt.show()
+)
 
 
 
