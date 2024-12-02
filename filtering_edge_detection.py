@@ -210,8 +210,10 @@ plt.close()
 # Canny (or similar) edge detection. Describe the parameter values and their impact on the result. Select what you think 
 # is a set of good parameter values, apply, show and decribe the result.
 
+# apply gaussian smoothing before applying Canny
+filtered_image = gaussian_filter(gray_mandrill, sigma=1) 
 # set different ranges for lower bound x and upper bound y for finding the right values
-thresholds = [(50, 100), (100, 200),( 150, 300)]
+thresholds = [(50, 100),(100, 150), (100, 200),( 150, 300)]
 # looping through the thresholds of the canny algorhytm and plotting them for inpsection
 for i, (x, y) in enumerate(thresholds):
     edges = cv.Canny(filtered_image, x, y)
