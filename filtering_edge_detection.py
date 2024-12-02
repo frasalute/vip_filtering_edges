@@ -3,7 +3,6 @@
 ## Martin
 ## Nicole
 
-
 # import libraries
 import cv2 as cv
 import numpy as np
@@ -34,7 +33,7 @@ sigma_values = [1, 2, 4, 8]
 
 def gaussian_filter(image, sigma):
 
-        # Calculate kernel size based on ±3σ truncation rule
+    # Calculate kernel size based on ±3σ truncation rule
     ksize = max(3, int(6 * sigma + 1))  # Ensure minimum kernel size of 3
     if ksize % 2 == 0:
         ksize += 1  # Make kernel size odd if it's even
@@ -51,33 +50,24 @@ def gaussian_filter_diff(original_image, filtered_image):
 
 for i, sigma in enumerate(sigma_values):
     # Apply Gaussian filter
-    filtered_image = gaussian_filter(gray_mandrill, sigma_values)
+    filtered_image = gaussian_filter(gray_mandrill, sigma)
     # Compute difference
     diff_image = gaussian_filter_diff(gray_mandrill, filtered_image)
 
     # Plot the filtered image
     plt.subplot(len(sigma_values), 2, i * 2 + 1)
     plt.imshow(filtered_image, cmap='gray')
-    plt.title(f'Filtered Image (σ={sigma_values})')
+    plt.title(f'Filtered Image (σ={sigma})')
     plt.axis('off')
 
     # Plot the difference image
     plt.subplot(len(sigma_values), 2, i * 2 + 2)
     plt.imshow(diff_image, cmap='gray')
-    plt.title(f'Difference (σ={sigma_values})')
+    plt.title(f'Difference (σ={sigma})')
     plt.axis('off')
-
 plt.tight_layout()
 plt.show()
-
-
-
-
-
-
-
-
-
+plt.close()
 
 # Gradient magnitude computation using Gaussian derivatives. Use σ = 1, 2, 4, 8 pixels, and 
 # explain in detail what can be seen and how the results differ. 
@@ -128,57 +118,33 @@ sigmas = [1,2,4,8]
 gradient_magnitudes = []
 
 for sigma in sigmas:
-    grad_mag = gradient_magnitude_gaussian(gray_mandrill, sigma=sigma)
+    grad_mag = gradient_magnitude_gaussian(gray_mandrill, sigma)
     gradient_magnitudes.append((sigma, grad_mag))
 
-for sigma, grad_mag in gradient_magnitudes:
-    fig=plt.figure(figsize=(12, 6))
-    ax1 = fig.add_subplot(121)  
-    ax2 = fig.add_subplot(122)
-
-    ax1.imshow(gray_mandrill, cmap='gray')
-    ax1.set_title('Grayscale Image')
-    ax1.axis('off')
-
-
-    ax2.imshow(grad_mag, cmap='gray')
-    ax2.set_title(f'Gradient Magnitude (σ={sigma})')
-    ax2.axis('off')
-    plt.show()
-    plt.close(fig)
-
+plt.figure(figsize=(12, 8))
+for i, (sigma, grad_mag) in enumerate(gradient_magnitudes):
+    plt.subplot(2, 2, i + 1)
+    plt.imshow(grad_mag, cmap='gray')
+    plt.title(f"Gradient Magnitude (σ={sigma})")
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
+plt.close()
 
 # using the scipy library out of curiosity
 
 sigmas = [1,2,4,8]
-for sigma in sigmas:
+plt.figure(figsize=(12, 8))
+
+for i,sigma in enumerate(sigmas):
     result = ndimage.gaussian_gradient_magnitude(gray_mandrill, sigma=sigma)
-    fig = plt.figure(figsize=(12, 6))
-    ax1 = fig.add_subplot(121)  # left side with original image
-    ax2 = fig.add_subplot(122)  # right side with gradient computation
-
-    ax1.imshow(gray_mandrill, cmap='gray')
-    ax1.set_title("Grayscale Image")
-    ax1.axis('off')
-
-    ax2.imshow(result, cmap='gray')
-    ax2.set_title(f"Gradient Magnitude (σ={sigma})")
-    ax2.axis('off')
-    plt.show()
-    plt.close(fig) # to avoid overlapping, each time a plot get closed the new one with the other sigma pops up
-
-
-
-
-
-
-
-
-
-
-
-
-
+    plt.subplot(2, 2, i + 1)
+    plt.imshow(result, cmap='gray')
+    plt.title(f"Gradient Magnitude (σ={sigma})")
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
+plt.close()
 
 # Laplacian-Gaussian filtering. You may implement this as a difference og Gaussians. Again, use σ = 1, 2, 4, 8 pixels, and 
 # explain in detail what can be seen and how the results differ.
@@ -239,21 +205,7 @@ for i, sigma in enumerate(sigmas):
     plt.axis('off')
 plt.tight_layout()
 plt.show()
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plt.close()
 
 # Canny (or similar) edge detection. Describe the parameter values and their impact on the result. Select what you think 
 # is a set of good parameter values, apply, show and decribe the result.
@@ -261,15 +213,17 @@ plt.show()
 # set different ranges for lower bound x and upper bound y for finding the right values
 thresholds = [(50, 100), (100, 200),( 150, 300)]
 # looping through the thresholds of the canny algorhytm and plotting them for inpsection
-for i (x, y) in thresholds:
+for i, (x, y) in enumerate(thresholds):
     edges = cv.Canny(filtered_image, x, y)
     plt.subplot(1, len(thresholds), i+1)
     plt.imshow(edges, cmap= 'gray')
     plt.title(f'x={x} y={y}')
     plt.axis('off')
-plt.tight_layout(
+plt.tight_layout()
 plt.show()
-)
+plt.close()
+
+
 
 
 
