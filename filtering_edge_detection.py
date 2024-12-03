@@ -69,6 +69,32 @@ plt.tight_layout()
 plt.show()
 plt.close()
 
+# 1D gaussian visualisation
+def gaussian_1d(sigma, kernel_size=None):
+    # If no kernel size is provided, compute based on ±3σ
+    if kernel_size is None:
+        kernel_size = max(3, int(6 * sigma + 1))
+        if kernel_size % 2 == 0:
+            kernel_size += 1  # Ensure odd size
+
+    half_size = kernel_size // 2
+    x = np.arange(-half_size, half_size + 1)
+    g = (1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-x**2 / (2 * sigma**2))
+    return x, g
+
+plt.figure(figsize=(10, 8))
+for i, sigma in enumerate(sigma_values):
+    x, g = gaussian_1d(sigma)
+    plt.plot(x, g, label=f'σ={sigma}')
+    plt.scatter(x, g, s=10)  # Show discrete points in kernel
+
+plt.title('1D Gaussian Kernel Validation')
+plt.xlabel('Kernel Index (x)')
+plt.ylabel('Gaussian Value')
+plt.legend()
+plt.grid()
+plt.show()
+
 # Gradient magnitude computation using Gaussian derivatives. Use σ = 1, 2, 4, 8 pixels, and 
 # explain in detail what can be seen and how the results differ. 
 
