@@ -1,6 +1,6 @@
 # vip_filtering_edges
 
-This code is for the assignment 2 in the Vision and Image Processing
+This code is for the assignment 2 in the Vision and Image Processing - frasalute is one of the main contributors. 
 All of the assignment questions are answered within. The code is meant to run in one go. 
 
 We used the provided image 'Mandrill' which is the one you will see throughout the different plots with different processing techniques applied to it.
