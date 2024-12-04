@@ -13,7 +13,8 @@ Required libraries are as follows:
 
 Important to note when running the code:
 1. You only have to press run and it will go through all the code.
-2. The first image is the original mandrill image
+2. The first image is the original mandrill image.
 3. Each plot that comes up is tied to the individual assignment.
-4. When you close a plot a new one will come up
-5. You have an indefinite amount to look at each plot
+4. For the original image and the grayscale press whatever key and they will close down.
+5. For all other images and plots, when you close a plot a new one will come up.
+6. You have an indefinite amount to look at each plot
