@@ -1,7 +1,7 @@
 ## Assignment 2: Filtering and Edge Detection
 ## Francesca Salute --> bhn327
-## Martin
-## Nicole
+## Martin Havresøe --> lwz885
+## Nicole Favero --> sxr554 
 
 # import libraries
 import cv2 as cv
@@ -252,21 +252,20 @@ plt.show()
 plt.close()
 
 # Experiment and testing
-"""
-# Part 3: Experiments to understand how the different sigmas influence the edges detection
 
+# Part 3: Some experiments to understand how the different sigmas influence the edges detection
 
 # Sigma set - small values
 sigmas_small = [0.5, 1, 2, 3]
-results_small = [laplacian_of_gaussian(gray_image, sigma) for sigma in sigmas_small]
+results_small = [laplacian_of_gaussian(gray_mandrill, sigma) for sigma in sigmas_small]
 
 # Sigma set - medium values
 sigmas_medium = [4, 5, 6, 7]
-results_medium = [laplacian_of_gaussian(gray_image, sigma) for sigma in sigmas_medium]
+results_medium = [laplacian_of_gaussian(gray_mandrill, sigma) for sigma in sigmas_medium]
 
 # Sigma set - large values 
 sigmas_large = [8, 9, 10, 11]
-results_large = [laplacian_of_gaussian(gray_image, sigma) for sigma in sigmas_large]
+results_large = [laplacian_of_gaussian(gray_mandrill, sigma) for sigma in sigmas_large]
 
 # Plot the results for the first set of sigmas (small values)
 plt.figure(figsize=(12, 8))
@@ -297,4 +296,39 @@ for i, sigma in enumerate(sigmas_large):
     plt.axis('off')
 plt.tight_layout()
 plt.show()
-"""
+
+# Sigma set - small values
+sigmas_small = [0.5, 1, 2, 3]
+gradient_magnitudes = []
+
+for sigma in sigmas_small:
+    grad_mag = gradient_magnitude_gaussian(gray_mandrill, sigma)
+    gradient_magnitudes.append((sigma, grad_mag))
+
+plt.figure(figsize=(12, 8))
+for i, (sigma, grad_mag) in enumerate(gradient_magnitudes):
+    plt.subplot(2, 2, i + 1)
+    plt.imshow(grad_mag, cmap='gray')
+    plt.title(f"Gradient Magnitude (σ={sigma})")
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
+plt.close()
+
+# Sigma set - large values 
+sigmas_large = [8, 9, 10, 11]
+gradient_magnitudes = []
+
+for sigma in sigmas_large:
+    grad_mag = gradient_magnitude_gaussian(gray_mandrill, sigma)
+    gradient_magnitudes.append((sigma, grad_mag))
+
+plt.figure(figsize=(12, 8))
+for i, (sigma, grad_mag) in enumerate(gradient_magnitudes):
+    plt.subplot(2, 2, i + 1)
+    plt.imshow(grad_mag, cmap='gray')
+    plt.title(f"Gradient Magnitude (σ={sigma})")
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
+plt.close()
