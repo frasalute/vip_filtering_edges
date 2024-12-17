@@ -1,7 +1,4 @@
-## Assignment 2: Filtering and Edge Detection
-## Francesca Salute --> bhn327
-## Martin Havresøe --> lwz885
-## Nicole Favero --> sxr554 
+## Filtering and Edge Detection
 
 # import libraries
 import cv2 as cv
